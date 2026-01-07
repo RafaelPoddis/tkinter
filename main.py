@@ -7,7 +7,7 @@ FILE_PATH = "save.json"
 def save_state():
     """Gathers data and saves it to a JSON file."""
     app_data = {
-        'score': label.cget("text")
+        'score': valueLabel.cget("text")
     }
     with open(FILE_PATH, 'w') as f:
         json.dump(app_data, f)
@@ -21,7 +21,7 @@ def load_state():
                 app_data = json.load(f)
                 content = app_data.get('score', '')
                 if content:
-                    label.config(text=content)
+                    valueLabel.config(text=content)
         except json.JSONDecodeError:
             print("Error reading saved state file.")
     else:
@@ -32,21 +32,23 @@ root = tk.Tk()
 # Properties
 root.title("Tela foda")
 root.geometry("720x450")
-root.configure(bg="#1e1e1e")
+# root.configure(bg="#1e1e1e")
 
-label = tk.Label(root, text="0")
-label.pack(pady=20)
+label1 = tk.Label(root, text="Dinheiros: ")
+label1.grid(row=0, column=0, padx=5, pady=10)
+valueLabel = tk.Label(root, text="0")
+valueLabel.grid(row=0, column=1, pady=10)
 
 def soma():
-    current_value = int(label["text"])
+    current_value = int(valueLabel["text"])
     new_value = current_value + 1
-    label.config(text=str(new_value))
+    valueLabel.config(text=str(new_value))
 
 sum_btn = tk.Button(root, text="Click!", command=soma)
-sum_btn.pack(pady=5)
+sum_btn.grid(row=1, column=0, pady=5)
 
 save_btn = tk.Button(root, text="Save and exit", command=save_state)
-save_btn.pack(pady=5)
+save_btn.place(relx=0.97, rely=0.03, anchor="ne")
 
 load_state()
 root.mainloop()
